@@ -1,25 +1,25 @@
 package com.segment.jsonrpc;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
-class JsonRPCRequest {
+class JsonRPC2RequestNamedParameters {
     static final Random RANDOM = new Random();
 
+    final String jsonrpc;
     final String method;
-    final List<Object> params;
+    final Object params;
     final long id;
 
-    JsonRPCRequest(String method, List<Object> params, long id) {
+    JsonRPC2RequestNamedParameters(String method, Object params, long id, String jsonrpc) {
         this.method = method;
         this.params = params;
         this.id = id;
+        this.jsonrpc = jsonrpc;
     }
 
-    static JsonRPCRequest create(String method, Object args) {
+    static JsonRPC2RequestNamedParameters create(String method, Object args) {
         long id = Math.abs(RANDOM.nextLong());
-        return new JsonRPCRequest(method, Collections.singletonList(args), id);
+        return new JsonRPC2RequestNamedParameters(method, args, id, "2.0");
     }
 
     @Override
@@ -27,7 +27,7 @@ class JsonRPCRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        JsonRPCRequest that = (JsonRPCRequest) o;
+        JsonRPC2RequestNamedParameters that = (JsonRPC2RequestNamedParameters) o;
 
         if (id != that.id) return false;
         //noinspection SimplifiableIfStatement

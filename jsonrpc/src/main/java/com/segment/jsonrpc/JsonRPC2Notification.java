@@ -2,24 +2,21 @@ package com.segment.jsonrpc;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-class JsonRPCRequest {
-    static final Random RANDOM = new Random();
+class JsonRPC2Notification {
 
+    final String jsonrpc;
     final String method;
     final List<Object> params;
-    final long id;
 
-    JsonRPCRequest(String method, List<Object> params, long id) {
+    JsonRPC2Notification(String method, List<Object> params, String jsonrpc) {
         this.method = method;
         this.params = params;
-        this.id = id;
+        this.jsonrpc = jsonrpc;
     }
 
-    static JsonRPCRequest create(String method, Object args) {
-        long id = Math.abs(RANDOM.nextLong());
-        return new JsonRPCRequest(method, Collections.singletonList(args), id);
+    static JsonRPC2Notification create(String method, Object args) {
+        return new JsonRPC2Notification(method, Collections.singletonList(args), "2.0");
     }
 
     @Override
@@ -27,9 +24,8 @@ class JsonRPCRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        JsonRPCRequest that = (JsonRPCRequest) o;
+        JsonRPC2Notification that = (JsonRPC2Notification) o;
 
-        if (id != that.id) return false;
         //noinspection SimplifiableIfStatement
         if (!method.equals(that.method)) return false;
         return params.equals(that.params);
@@ -39,7 +35,6 @@ class JsonRPCRequest {
     public int hashCode() {
         int result = method.hashCode();
         result = 31 * result + params.hashCode();
-        result = 31 * result + (int) (id ^ (id >>> 32));
         return result;
     }
 }
