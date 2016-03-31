@@ -20,7 +20,7 @@ public @interface JsonRPC2 {
     /**
      * Define if the RPC query use named parameters.
      */
-    boolean namedParameters() default false;
+    boolean namedParameters() default true;
 
     /**
      * Define if the RPC query is a notification (No id)

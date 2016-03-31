@@ -18,7 +18,7 @@ class JsonRPCRequest {
     }
 
     static JsonRPCRequest create(String method, Object args) {
-        long id = Math.abs(RANDOM.nextLong());
+        long id = Math.abs(RANDOM.nextInt());
         return new JsonRPCRequest(method, Collections.singletonList(args), id);
     }
 

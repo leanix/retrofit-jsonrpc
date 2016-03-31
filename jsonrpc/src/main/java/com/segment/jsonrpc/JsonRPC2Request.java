@@ -20,7 +20,7 @@ class JsonRPC2Request {
     }
 
     static JsonRPC2Request create(String method, Object args) {
-        long id = Math.abs(RANDOM.nextLong());
+        long id = Math.abs(RANDOM.nextInt());
         return new JsonRPC2Request(method, Collections.singletonList(args), id, "2.0");
     }
 

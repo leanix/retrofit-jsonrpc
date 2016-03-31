@@ -18,7 +18,7 @@ class JsonRPC2RequestNamedParameters {
     }
 
     static JsonRPC2RequestNamedParameters create(String method, Object args) {
-        long id = Math.abs(RANDOM.nextLong());
+        long id = Math.abs(RANDOM.nextInt());
         return new JsonRPC2RequestNamedParameters(method, args, id, "2.0");
     }
 
