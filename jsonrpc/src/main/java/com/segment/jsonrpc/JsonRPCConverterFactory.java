@@ -2,6 +2,7 @@ package com.segment.jsonrpc;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.List;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -9,12 +10,12 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 public class JsonRPCConverterFactory extends Converter.Factory {
-    public static JsonRPCConverterFactory create() {
-        return new JsonRPCConverterFactory();
-    }
-
     private JsonRPCConverterFactory() {
         // Private constructor.
+    }
+
+    public static JsonRPCConverterFactory create() {
+        return new JsonRPCConverterFactory();
     }
 
     @Override
@@ -46,6 +47,19 @@ public class JsonRPCConverterFactory extends Converter.Factory {
             //noinspection unchecked
             return new JsonRPCConverters.JsonRPCRequestBodyConverter(method, delegate);
         }
+
+        JsonRPC2Batch jsonRPC2BatchAnnotation = Utils.findAnnotation(methodAnnotations, JsonRPC2Batch.class);
+        if (jsonRPC2BatchAnnotation != null) {
+            String[] methods = jsonRPC2BatchAnnotation.value();
+
+            Converter<List<JsonRPC2BatchRequest>, RequestBody> delegate =
+                    retrofit.nextRequestBodyConverter(this, List.class, annotations,
+                            methodAnnotations);
+
+
+            return new JsonRPCConverters.JsonRPC2BatchRequestBodyConverter(methods, delegate);
+        }
+
 
         JsonRPC2 jsonRPC2Annotation = Utils.findAnnotation(methodAnnotations, JsonRPC2.class);
         if (jsonRPC2Annotation != null) {
